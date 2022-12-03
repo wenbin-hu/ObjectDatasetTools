@@ -193,7 +193,6 @@ if __name__ == "__main__":
         points, colors, vote = post_process(originals, voxel_Radius, inlier_Radius)
         ply = Ply(points[vote>1], colors[vote>1])
         meshfile = path + 'registeredScene.ply'
-
         ply.write(meshfile)
         print("Mesh saved")
 

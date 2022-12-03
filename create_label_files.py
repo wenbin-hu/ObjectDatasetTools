@@ -67,6 +67,8 @@ if __name__ == "__main__":
         print_usage()
         exit()
 
+    # debug
+    # folders = ["LINEMOD/mug/"]
     
     for classlabel,folder in enumerate(folders):
         # print(folder[8:-1], "is assigned class label:", classlabel)

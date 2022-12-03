@@ -14,7 +14,9 @@ Using librealsense SDK 2.0 with pyrealsense2 for SR300 and D series cameras
 # record for 40s after a 5s count down
 # or exit the recording earlier by pressing q
 
-RECORD_LENGTH = 40
+RECORD_LENGTH = 60  # 40
+video_freq = 30
+save_freq = 10  # 15  # 30  # 5
 
 import png
 import pyrealsense2 as rs
@@ -53,8 +55,8 @@ if __name__ == "__main__":
     
     pipeline = rs.pipeline()
     config = rs.config()
-    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
-    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, video_freq)
+    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, video_freq)
     
     # Start pipeline
     profile = pipeline.start(config)
@@ -77,6 +79,7 @@ if __name__ == "__main__":
     align = rs.align(align_to)
 
     T_start = time.time()
+    tmp_cnt = 0
     while True:
         frames = pipeline.wait_for_frames()
         aligned_frames = align.process(frames)
@@ -93,7 +96,7 @@ if __name__ == "__main__":
    
         # Visualize count down
 
-        if time.time() -T_start > 5:
+        if time.time() -T_start > 5 and tmp_cnt % (video_freq//save_freq) == 0:
             filecad= folder+"JPEGImages/%s.jpg" % FileName
             filedepth= folder+"depth/%s.png" % FileName
             cv2.imwrite(filecad,c)
@@ -114,7 +117,7 @@ if __name__ == "__main__":
             cv2.putText(c,str(RECORD_LENGTH+5-int(time.time()-T_start)),(240,320), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 4,(0,0,255),2,cv2.LINE_AA)
         cv2.imshow('COLOR IMAGE',c)
 
-
+        tmp_cnt += 1
 
         # press q to quit the program
         if cv2.waitKey(1) & 0xFF == ord('q'):

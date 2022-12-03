@@ -145,6 +145,7 @@ def post_process(originals, voxel_Radius, inlier_Radius):
 
      return (points,colors,vote) 
   
+# memory cost too high
 def full_registration(path,max_correspondence_distance_coarse,
                       max_correspondence_distance_fine):
 
@@ -335,6 +336,9 @@ if __name__ == "__main__":
     except:
         print_usage()
         exit()
+
+    # debug
+    # folders = ["LINEMOD/mug1/"]
 
     for path in folders:
          
