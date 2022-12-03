@@ -149,7 +149,9 @@ if __name__ == "__main__":
 
             image_mask = np.zeros(img.shape[:2],dtype = np.uint8)
             for pixel in masks:
-                cv2.circle(image_mask,(int(pixel[0]),int(pixel[1])), 5, 255, -1)
+                # cv2.circle(image_mask,(int(pixel[0]),int(pixel[1])), 5, 255, -1)
+                # shrink the size of the circle, making the masks more tight
+                cv2.circle(image_mask,(int(pixel[0]),int(pixel[1])), 1, 255, -1)
    
             thresh = cv2.threshold(image_mask, 30, 255, cv2.THRESH_BINARY)[1]
     
